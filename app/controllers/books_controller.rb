@@ -59,8 +59,9 @@ before_action :ensure_correct_user, only: [:edit, :update]
 # 他人のbook編集画面にいけないようにするやつ
 # 勝手に編集しようとする人は自分のbook/indexページへ行く
   def ensure_correct_user
-    book = Book.find(params[:id])
-    unless book.user.id == current_user.id
+    @book = Book.find(params[:id])
+    # unless book.user.id == current_user.id
+    unless @book.user == current_user
       redirect_to books_path
     end
   end

@@ -4,8 +4,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
          
-  # ユーザーは複数の本を投稿できるよー
+  # 1人のユーザーは複数の本を投稿できるよー、ユーザーが消えたらそのユーザーのBookも消えるよ
   has_many :books, dependent: :destroy
+  # 1人のユーザーは複数いいねできるよー、ユーザーが消えたらそのユーザーのいいねも消えるよ
+  has_many :favorites, dependent: :destroy
+  # ユーザー1人につき1つのプロフィールイメージ
   has_one_attached :profile_image
 
   validates :name, length: { minimum: 2, maximum: 20 }, uniqueness: true
