@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :ensure_correct_user, only: [:update]
+  # edit,updateのアクション前にensure_correct_userアクション実行
+  before_action :ensure_correct_user, only: [:edit,:update]
 
   def show
     @user = User.find(params[:id])
@@ -32,6 +33,8 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :introduction, :profile_image)
   end
 
+ # 他人のユーザ情報編集画面にいけないようにするやつ
+# 勝手に編集しようとする人は自分のuser/indexページへ行く
   def ensure_correct_user
     @user = User.find(params[:id])
     unless @user == current_user

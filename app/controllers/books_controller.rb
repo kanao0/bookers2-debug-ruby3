@@ -1,4 +1,6 @@
 class BooksController < ApplicationController
+  # edit,updateアクション前にensure_correct_user実行
+before_action :ensure_correct_user, only: [:edit, :update]
 
   def show
     # 本の情報をURLから取得
@@ -25,7 +27,7 @@ class BooksController < ApplicationController
       redirect_to book_path(@book.id), notice: "You have created book successfully."
     else
       @books = Book.all
-      render 'index'
+      render :index
     end
   end
 
@@ -38,7 +40,7 @@ class BooksController < ApplicationController
     if @book.update(book_params)
       redirect_to book_path(@book), notice: "You have updated book successfully."
     else
-      render "edit"
+      render :edit
     end
   end
 
@@ -53,4 +55,15 @@ class BooksController < ApplicationController
   def book_params
     params.require(:book).permit(:title, :body)
   end
+  
+# 他人のbook編集画面にいけないようにするやつ
+# 勝手に編集しようとする人は自分のbook/indexページへ行く
+  def ensure_correct_user
+    book = Book.find(params[:id])
+    unless book.user.id == current_user.id
+      redirect_to books_path
+    end
+  end
+
+  
 end
