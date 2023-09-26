@@ -7,8 +7,10 @@ Rails.application.routes.draw do
 
 
   # booksのルーティングindex,show,edit,create,destroy,update作成
-
+  # 投稿された本に対してコメント、いいねをするから親子関係にしてあげる
+  # いいねは画面移動なしresource、コメントは詳細画面へ移動するからresources
   resources :books, only: [:index,:show,:edit,:create,:destroy,:update] do
+    resources :book_comments, only: [:create, :destroy]
     resource :favorites, only: [:create, :destroy]
   end
   resources :users, only: [:index,:show,:edit,:update]

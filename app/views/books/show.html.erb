@@ -10,16 +10,16 @@
   		<h2>Book detail</h2>
   		<table class='table'>
   		  <tr>
-          <td><%= link_to(@book.user) do %>
-            <%= image_tag @book.user.get_profile_image, size:"100x100" %><br>
+          <td>
+            <%= link_to(@book.user) do %>
+            <%= image_tag @book.user.get_profile_image, size:"50x50" %><br>
             <%= @book.user.name %>
             <% end %>
           </td>
           <td><%= link_to @book.title, @book %></td>
           <td><%= @book.body %></td>
-          <!--★ここにいいね表示★-->
-      
-      
+
+          <!--いいね欄-->
         <!--いいねが押されてるか押されてないか、ログインしてる人の情報（自分の情報）が必要-->
         <% if @book.favorited_by?(current_user) %>
           <td>
@@ -36,14 +36,53 @@
              <% end %>
           </td>
         <% end %>
-          
+
+          <!--コメント数表示-->
+          <td>
+          コメント数：<%= @book.book_comments.count %>
+          </td>
+
       <!--もしログインユーザーが本を投稿してるユーザーだったらedit,destroy表示-->
           <% if @book.user == current_user %>
           <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success" %></td>
           <td><%= link_to 'Destroy', @book, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>
-          <% end %>  
+          <% end %>
         </tr>
       </table>
+      <!--投稿したコメント一覧-->
+      <!--コメントしたユーザーの画像、名前、こめんと内容、削除-->
+      <table>
+        <tr>
+          <td>
+            <% @book.book_comments.each do |book_comment| %>
+              <%= link_to user_path(book_comment.user.id) do %>
+                <p><%= image_tag book_comment.user.get_profile_image, size:'50x50' %><br>
+                <%= book_comment.user.name %>
+              <% end %>
+      
+               <%= book_comment.comment %>
+              <!--本のコメントしたユーザーがログインしたーユーザーだったら-->
+              <% if book_comment.user == current_user %>
+                <%= link_to "Destroy", book_book_comment_path(book_comment.book, book_comment), method: :delete, class: "btn btn-sm btn-danger"%></ %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>    
+      </table>      
+
+      <!--コメント投稿欄-->
+      <!--2つ記述するbookとbook_commentが親子関係だから-->
+        <%= form_with model: [@book, @book_comment] do |f| %>
+          <div class="form-group">
+            <%= f.text_area :comment, rows: '5' %>
+          </div>
+          <div class="form-group">
+            <%= f.submit "送信" %>
+          </div>
+        <% end %>
+
     </div>
   </div>
 </div>
+
+

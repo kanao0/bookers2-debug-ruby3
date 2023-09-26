@@ -9,6 +9,8 @@ before_action :ensure_correct_user, only: [:edit, :update]
     @user = @book.user
     # Book投稿のための箱を用意
     @book_new = Book.new
+    # コメント欄のための箱
+    @book_comment = BookComment.new
   end
 
   def index
@@ -20,8 +22,9 @@ before_action :ensure_correct_user, only: [:edit, :update]
   end
 
   def create
-    # 投稿されたデータを入れる
+    # 投稿されたデータを入れる箱を作る
     @book = Book.new(book_params)
+    # できた箱（@book）に誰が投稿したかの情報を入れる
     @book.user_id = current_user.id
     if @book.save
       redirect_to book_path(@book.id), notice: "You have created book successfully."
