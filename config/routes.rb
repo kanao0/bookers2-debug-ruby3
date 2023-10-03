@@ -3,8 +3,9 @@ Rails.application.routes.draw do
 
   root :to =>"homes#top"
   devise_for :users
-  get "home/about"=>"homes#about"
-
+  get "home/about"=> "homes#about"
+  # 検索機能
+  get "/search" => "searches#search"
 
   # booksのルーティングindex,show,edit,create,destroy,update作成
   # 投稿された本に対してコメント、いいねをするから親子関係にしてあげる
