@@ -13,7 +13,15 @@ Rails.application.routes.draw do
     resources :book_comments, only: [:create, :destroy]
     resource :favorites, only: [:create, :destroy]
   end
-  resources :users, only: [:index,:show,:edit,:update]
+  
+  resources :users, only: [:index,:show,:edit,:update] do
+   # ネストさせる
+  # フォローする/フォロー削除は画面移動なしresource
+    resource :relationships, only: [:create, :destroy]
+    # 一覧画面に行くためのやつ
+    get 'followings' => 'relationships#followings', as: 'followings'
+    get 'followers' => 'relationships#followers', as: 'followers'
+  end
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

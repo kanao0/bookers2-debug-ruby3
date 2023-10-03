@@ -26,6 +26,10 @@ class UsersController < ApplicationController
       render :edit
     end
   end
+  
+  
+  
+  
 
   private
 
@@ -41,5 +45,6 @@ class UsersController < ApplicationController
       redirect_to user_path(current_user)
     end
   end
+  
 
 end

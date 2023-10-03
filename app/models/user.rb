@@ -4,7 +4,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
          
-  
   # ユーザー1人につき1つのプロフィールイメージ
   has_one_attached :profile_image  
   # 1人のユーザーは複数の本を投稿できるよー、ユーザーが消えたらそのユーザーのBookも消えるよ
@@ -14,17 +13,41 @@ class User < ApplicationRecord
   # 1人のユーザーは複数コメントできるよー、ユーザーが消えたらそのユーザーのコメントも消えるよ
   has_many :book_comments, dependent: :destroy
 
+  # ※follower_id : フォローするユーザー
+  # ※followed_id : フォローされるユーザー
+  # foreign_key参照する外部キー
+  
+  # あるユーザーをフォローしている人(フォロワー)の一覧を取得するアソシエーション
+  # 　フォローした、されたの関係
+  has_many :reverse_of_relationships, class_name:  "Relationship",
+                                      foreign_key: "followed_id",
+                                      dependent:   :destroy
+  # 一覧画面で使う
+  has_many :followers, through: :reverse_of_relationships, source: :follower
+  
+  # あるユーザーがフォローしている人(フォロイー)の一覧を取得するアソシエーション
+  # フォローした、されたノ関係
+  has_many :relationships, class_name:  "Relationship",
+                           foreign_key: "follower_id",
+                           dependent:   :destroy
+  # 一覧画面で使う
+  has_many :followings, through: :relationships, source: :followed
 
   validates :name, length: { minimum: 2, maximum: 20 }, uniqueness: true
   validates :introduction, length: { maximum: 50 }
-
-  # def get_profile_image(width, height)
-  #   unless profile_image.attached?
-  #     file_path = Rails.root.join('app/assets/images/no-image.jpg')
-  #     profile_image.attach(io: File.open(file_path), filename: 'no-image.jpg', content_type: 'image/jpeg')
-  #   end
-  #   profile_image.variant(resize_to_limit: [width, height]).processed
-  # end
+  
+   # フォローしたときの処理
+  def follow(user_id)
+    relationships.create(followed_id: user_id)
+  end
+  # フォローを外すときの処理
+  def unfollow(user_id)
+    relationships.find_by(followed_id: user_id).destroy
+  end
+  # フォローしているか判定、してたらtrue
+  def following?(user)
+    followings.include?(user)
+  end
   
   
   def get_profile_image

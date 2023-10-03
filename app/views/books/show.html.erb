@@ -71,15 +71,9 @@
       </table>      
 
       <!--コメント投稿欄-->
+      <!--レンダーbook_comments/_form.erb-->
       <!--2つ記述するbookとbook_commentが親子関係だから-->
-        <%= form_with model: [@book, @book_comment] do |f| %>
-          <div class="form-group">
-            <%= f.text_area :comment, rows: '5' %>
-          </div>
-          <div class="form-group">
-            <%= f.submit "送信" %>
-          </div>
-        <% end %>
+      <%= render 'book_comments/form', book: @book, book_comment: @book_comment %>
 
     </div>
   </div>
