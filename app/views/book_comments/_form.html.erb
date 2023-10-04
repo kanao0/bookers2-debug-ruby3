@@ -1,8 +1,8 @@
 <!--本のコメントフォーム-->
 <!--2つ記述するbookとbook_commentが親子関係だから-->
-        <%= form_with model: [book, book_comment] do |f| %>
+        <%= form_with model: [book, book_comment], local: false do |f| %>
           <div class="form-group">
-            <%= f.text_area :comment, rows: '5',placeholder: "コメントをここに", class: "w-100" %>
+            <%= f.text_area :comment, rows: '5',placeholder: "コメントをここに", class: "w-100", id: "comment_textarea" %>
           </div>
           <div class="form-group">
             <%= f.submit "送信" %>

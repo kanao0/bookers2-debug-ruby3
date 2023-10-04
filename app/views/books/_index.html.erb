@@ -22,7 +22,7 @@
         </td>
       <!--コメント数-->
         <td>
-          コメント数：<%= book.book_comments.count %>
+          <%= render "book_comments/count", book: book %>
         </td>
       </tr>
     <% end %>
