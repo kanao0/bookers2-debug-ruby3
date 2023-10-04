@@ -21,21 +21,9 @@
 
           <!--いいね欄-->
         <!--いいねが押されてるか押されてないか、ログインしてる人の情報（自分の情報）が必要-->
-        <% if @book.favorited_by?(current_user) %>
-          <td>
-            <!--押されてるとき表示-->
-            <%= link_to book_favorites_path(@book), method: :delete do %>
-               ♥<%= @book.favorites.count %> いいね
-             <% end %>
-          </td>
-           <% else %>
-          <td>
-            <!--押されてないとき表示-->
-            <%= link_to book_favorites_path(@book), method: :post do %>
-               ♡<%= @book.favorites.count %> いいね
-             <% end %>
-          </td>
-        <% end %>
+        <td id="favorite_buttons_<%= @book.id %>">
+        <%= render "favorites/btn", book: @book %>
+        </td>
 
           <!--コメント数表示-->
           <td>
@@ -59,7 +47,7 @@
                 <p><%= image_tag book_comment.user.get_profile_image, size:'50x50' %><br>
                 <%= book_comment.user.name %>
               <% end %>
-      
+
                <%= book_comment.comment %>
               <!--本のコメントしたユーザーがログインしたーユーザーだったら-->
               <% if book_comment.user == current_user %>
@@ -67,8 +55,8 @@
               <% end %>
             <% end %>
           </td>
-        </tr>    
-      </table>      
+        </tr>
+      </table>
 
       <!--コメント投稿欄-->
       <!--レンダーbook_comments/_form.erb-->
