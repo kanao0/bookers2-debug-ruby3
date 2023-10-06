@@ -19,15 +19,19 @@
           <td><%= link_to @book.title, @book %></td>
           <td><%= @book.body %></td>
 
-          <!--いいね欄-->
-        <!--いいねが押されてるか押されてないか、ログインしてる人の情報（自分の情報）が必要-->
-        <td id="favorite_buttons_<%= @book.id %>">
-        <%= render "favorites/btn", book: @book %>
-        </td>
+            <!--いいね欄-->
+          <!--いいねが押されてるか押されてないか、ログインしてる人の情報（自分の情報）が必要-->
+          <td id="favorite_buttons_<%= @book.id %>">
+          <%= render "favorites/btn", book: @book %>
+          </td>
 
           <!--コメント数表示-->
           <td id="comment_counter">
             <%= render "book_comments/count", book: @book %>
+          </td>
+          <!--星評価-->
+          <td>
+            <%= render "static_rate", book: @book %>
           </td>
 
       <!--もしログインユーザーが本を投稿してるユーザーだったらedit,destroy表示-->
