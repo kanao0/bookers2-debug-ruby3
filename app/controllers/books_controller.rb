@@ -16,7 +16,15 @@ before_action :ensure_correct_user, only: [:edit, :update]
   def index
     @user = current_user
     # 投稿した本のデータを取得
-    @books = Book.all
+    if params[:latest]
+      @books = Book.latest
+    elsif params[:old]
+      @books = Book.old
+    elsif params[:star_count]
+      @books = Book.star_count
+    else
+      @books = Book.all
+    end
     # データを入れる箱
     @book = Book.new
   end

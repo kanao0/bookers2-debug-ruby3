@@ -9,6 +9,15 @@ class Book < ApplicationRecord
 
   validates :title,presence:true
   validates :body,presence:true,length:{maximum:200}
+  
+  # カラムデータの取り出し方を記入
+  # order = データの取り出し　created_at = 投稿日のカラム　desc = 昇順　asc = 降順
+  # :latest : 最新のものから順に並べる
+  scope :latest, -> {order(created_at: :desc)}
+  # :old : 古いものから順に並べる
+  scope :old, -> {order(created_at: :asc)}
+  # :star_count : 星の数が多い順に並べる
+  scope :star_count, -> {order(star: :desc)}
 
   # 検索方法に合わせて処理をわける
   def self.search_for(content, method)
