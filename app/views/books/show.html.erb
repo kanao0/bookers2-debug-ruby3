@@ -18,6 +18,8 @@
           </td>
           <td><%= link_to @book.title, @book %></td>
           <td><%= @book.body %></td>
+          <!--タグの検索結果一覧に飛ぶ-->
+          <td><%=link_to @book.category,tagsearches_search_path(content:@book.category)%></td>
 
             <!--いいね欄-->
           <!--いいねが押されてるか押されてないか、ログインしてる人の情報（自分の情報）が必要-->

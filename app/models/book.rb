@@ -9,6 +9,7 @@ class Book < ApplicationRecord
 
   validates :title,presence:true
   validates :body,presence:true,length:{maximum:200}
+  validates :category, presence: true
   
   # カラムデータの取り出し方を記入
   # order = データの取り出し　created_at = 投稿日のカラム　desc = 昇順　asc = 降順

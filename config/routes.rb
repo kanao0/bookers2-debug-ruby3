@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get "home/about"=> "homes#about"
   # 検索機能
   get "/search" => "searches#search"
+  # タグ検索
+  get 'tagsearches/search' => 'tagsearches#search'
 
   # booksのルーティングindex,show,edit,create,destroy,update作成
   # 投稿された本に対してコメント、いいねをするから親子関係にしてあげる

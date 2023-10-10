@@ -64,7 +64,7 @@ before_action :ensure_correct_user, only: [:edit, :update]
   private
 
   def book_params
-    params.require(:book).permit(:title, :body, :star)
+    params.require(:book).permit(:title, :body, :star, :category)
   end
   
 # 他人のbook編集画面にいけないようにするやつ
